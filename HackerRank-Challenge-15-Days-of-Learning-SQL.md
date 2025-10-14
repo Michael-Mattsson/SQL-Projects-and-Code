@@ -1,4 +1,4 @@
-## Problem
+## HackerRank - 15 Days of Learning SQL
 
 Julia conducted a 15 Days of Learning SQL contest.  
 The start date of the contest was **March 01, 2016** and the end date was **March 15, 2016**.  
