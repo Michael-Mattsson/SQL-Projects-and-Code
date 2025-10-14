@@ -1,20 +1,42 @@
-## Problem ##
+## Problem
 
-#####Julia conducted a 15 days of learning SQL contest. The start date of the contest was March 01, 2016 and the end date was March 15, 2016.
-Write a query to print total number of unique hackers who made at least 1 submission each day (starting on the first day of the contest), and find the hacker_id and name of the hacker who made maximum number of submissions each day. If more than one such hacker has a maximum number of submissions, print the lowest hacker_id. The query should print this information for each day of the contest, sorted by the date.#####
+Julia conducted a 15 Days of Learning SQL contest.  
+The start date of the contest was **March 01, 2016** and the end date was **March 15, 2016**.  
 
-####Tables####
+Write a query to print:  
 
-#####Hackers#####
-  hacker_id (INT), name (String)
+1. Total number of unique hackers who made at least 1 submission each day (starting on the first day of the contest).  
+2. The `hacker_id` and `name` of the hacker who made the maximum number of submissions each day.  
 
-#####Submissions#####
-  submission_date (date), submission_id (INT), hacker_id (INT), score (INT)
+> If more than one hacker has the maximum submissions, print the **lowest hacker_id**.  
+> The query should print this information for each day of the contest, sorted by date.
 
-##Solution##
-#####Decided to use CTE to break down problem into multiple steps for clarity and ease in reading. Steps include 1) tracking each hackers submission streak, 2) Count number of hackers that submitted every day, 3) Rank hackers by most submissions by day, 4) Combine everything#####
+---
 
+## Tables
 
+**Hackers**  
+- `hacker_id` (INT)  
+- `name` (STRING)
+
+**Submissions**  
+- `submission_date` (DATE)  
+- `submission_id` (INT)  
+- `hacker_id` (INT)  
+- `score` (INT)
+
+---
+
+## Solution
+
+*Decided to use CTEs to break down the problem into multiple steps for clarity and ease of reading. Steps include:*  
+
+1. Tracking each hacker's submission streak.  
+2. Counting the number of hackers that submitted every day.  
+3. Ranking hackers by most submissions per day.  
+4. Combining everything for the final output.  
+
+```sql
 WITH submission_tracking AS (
     SELECT
         s1.submission_date,
@@ -59,7 +81,6 @@ daily_submission_rank AS (
     GROUP BY s.submission_date, s.hacker_id, h.name
 )
 
-
 SELECT
     dsr.submission_date,
     ehc.everyday_hacker,
@@ -70,9 +91,3 @@ JOIN everyday_hacker_count ehc
     ON dsr.submission_date = ehc.submission_date
 WHERE dsr.daily_rank = 1
 ORDER BY dsr.submission_date, dsr.hacker_id ASC;
-
-
-
-
-
-
